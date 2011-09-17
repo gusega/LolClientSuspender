@@ -111,6 +111,7 @@ BOOL doSmth() {
 	if (!suspendResumeProcThreads(clientProcId, false)) {
 		return false;
 	}
+	return true;
 }
 int _tmain(int argc, _TCHAR* argv[]) {
 	while (doSmth());
