@@ -1,5 +1,5 @@
-run after you've launched lol client. after you exited lol, close it.
+Run after you've logged in into the LoL client. After you exited LoL client, close it. Restart it if you closed and then opened the LoL client.
 
-Known issues: sometimes lol client process is running but you don't see it. Then you should kill it, then relaunch, then run suspender.
+Known issues: sometimes LoL client process is running but you don't see it. Then you should kill it, then relaunch, then run suspender.
 
 GL&HF
