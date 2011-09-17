@@ -84,10 +84,6 @@ DWORD findProcIdByName(const char * procName) {
 }
 
 BOOL doSmth() {
-	DWORD clientProcId = findProcIdByName(lolclient);
-	if (clientProcId <= 0) {
-		return false;
-	}
 	boolean scanLeagueOfL = true;
 	DWORD lolGameId = 0;
 	while (scanLeagueOfL) {
@@ -100,7 +96,12 @@ BOOL doSmth() {
 			scanLeagueOfL = false;
 		}
 	}
-	//we found lol game id;
+	//find lol game id;
+	DWORD clientProcId = findProcIdByName(lolclient);
+	if (clientProcId <= 0) {
+		return false;
+	}
+
 	if (!suspendResumeProcThreads(clientProcId, true)) {
 		return false;
 	}

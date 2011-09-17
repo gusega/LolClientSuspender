@@ -1,0 +1,24 @@
+﻿Build started 17.09.2011 19:35:49.
+Project "C:\Documents and Settings\Evgesia\My Documents\Visual Studio 2010\Projects\LolClientSuspender\LolClientSuspender\LolClientSuspender.vcxproj" on node 2 (build target(s)).
+InitializeBuildStatus:
+  Touching "Release\LolClientSuspender.unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+Link:
+  C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Documents and Settings\Evgesia\My Documents\Visual Studio 2010\Projects\LolClientSuspender\Release\LolClientSuspender.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\LolClientSuspender.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Documents and Settings\Evgesia\My Documents\Visual Studio 2010\Projects\LolClientSuspender\Release\LolClientSuspender.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Documents and Settings\Evgesia\My Documents\Visual Studio 2010\Projects\LolClientSuspender\Release\LolClientSuspender.lib" /MACHINE:X86 Release\LolClientSuspender.obj
+  Release\stdafx.obj
+  Generating code
+c:\documents and settings\evgesia\my documents\visual studio 2010\projects\lolclientsuspender\lolclientsuspender\lolclientsuspender.cpp(114): warning C4715: 'doSmth' : not all control paths return a value
+  Finished generating code
+  LolClientSuspender.vcxproj -> C:\Documents and Settings\Evgesia\My Documents\Visual Studio 2010\Projects\LolClientSuspender\Release\LolClientSuspender.exe
+Manifest:
+  C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Documents and Settings\Evgesia\My Documents\Visual Studio 2010\Projects\LolClientSuspender\Release\LolClientSuspender.exe;#1" /manifest Release\LolClientSuspender.exe.intermediate.manifest
+FinalizeBuildStatus:
+  Deleting file "Release\LolClientSuspender.unsuccessfulbuild".
+  Touching "Release\LolClientSuspender.lastbuildstate".
+Done Building Project "C:\Documents and Settings\Evgesia\My Documents\Visual Studio 2010\Projects\LolClientSuspender\LolClientSuspender\LolClientSuspender.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03
