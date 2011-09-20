@@ -1,17 +1,10 @@
 #include "stdafx.h"
 #include <windows.h>
-#include <stdlib.h>
-#include <string.h>
-#include <tchar.h>
 #include <tlhelp32.h>
-#include <cstdio>
-#include <iostream>
 
-using namespace std;
-
-const char * lolclient = "LolClient.exe";
-const char * lolgame = "League Of Legends.exe";
-DWORD millisecondsToSleep = 2000;
+const _TCHAR* lolclient = L"LolClient.exe";
+const _TCHAR* lolgame = L"League Of Legends.exe";
+DWORD millisecondsToSleep = 5000;
 
 BOOL suspendResumeProcThreads(DWORD dwOwnerPID, BOOL suspend) 
 { 
@@ -54,7 +47,7 @@ BOOL suspendResumeProcThreads(DWORD dwOwnerPID, BOOL suspend)
   return true;
 }
 
-DWORD findProcIdByName(const char * procName) {
+DWORD findProcIdByName(const _TCHAR* procName) {
 	PROCESSENTRY32 entry;
 	HANDLE hThreadSnap = INVALID_HANDLE_VALUE; 
 
@@ -74,7 +67,7 @@ DWORD findProcIdByName(const char * procName) {
 
     while (Process32Next(snapshot, &entry) == TRUE)
     {
-        if (_stricmp(entry.szExeFile, procName) == 0)
+        if (_tcsicmp(entry.szExeFile, procName) == 0)
         {  
 			CloseHandle(snapshot);
 			return entry.th32ProcessID;
@@ -105,7 +98,7 @@ BOOL doSmth() {
 	if (!suspendResumeProcThreads(clientProcId, true)) {
 		return false;
 	}
-	HANDLE lolGame = OpenProcess(SYNCHRONIZE/*PROCESS_QUERY_INFORMATION*/, true, lolGameId);
+	HANDLE lolGame = OpenProcess(SYNCHRONIZE, true, lolGameId);
 	DWORD ret = WaitForSingleObject(lolGame, INFINITE);
 	CloseHandle(lolGame);
 	if (!suspendResumeProcThreads(clientProcId, false)) {
@@ -113,7 +106,9 @@ BOOL doSmth() {
 	}
 	return true;
 }
-int _tmain(int argc, _TCHAR* argv[]) {
+
+int _tmain(int argc, _TCHAR* argv[])
+{
 	while (doSmth());
 	return 0;
 }
