@@ -6,48 +6,37 @@ const _TCHAR* lolclient = L"LolClient.exe";
 const _TCHAR* lolgame = L"League Of Legends.exe";
 DWORD millisecondsToSleep = 5000;
 
-BOOL suspendResumeProcThreads(DWORD dwOwnerPID, BOOL suspend) 
-{ 
-  HANDLE hThreadSnap = INVALID_HANDLE_VALUE; 
-  THREADENTRY32 te32; 
-  // Fill in the size of the structure before using it. 
-  te32.dwSize = sizeof(THREADENTRY32 ); 
+BOOL suspendResumeProcThreads(DWORD dwOwnerPID, BOOL suspend) { 
+	BOOL result = false;
+	HANDLE hThreadSnap = INVALID_HANDLE_VALUE; 
+	THREADENTRY32 te32; 
+	// Fill in the size of the structure before using it. 
+	te32.dwSize = sizeof(THREADENTRY32);
  
-  // Take a snapshot of all running threads  
-  hThreadSnap = CreateToolhelp32Snapshot( TH32CS_SNAPTHREAD, 0 ); 
-  if( hThreadSnap == INVALID_HANDLE_VALUE ) {
-    return false; 
-  } 
- 
-  // Retrieve information about the first thread,
-  // and exit if unsuccessful
-  if( !Thread32First( hThreadSnap, &te32 ) ) 
-  {
-    CloseHandle( hThreadSnap );     // Must clean up the snapshot object!
-    return false;
-  }
-
-  // Now walk the thread list of the system,
-  // and suspend/resume each thread
-  // associated with the specified process
-  while(Thread32Next(hThreadSnap, &te32 ))  {
-		if(te32.th32OwnerProcessID == dwOwnerPID) {
-			HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME , true, te32.th32ThreadID);			
-			if (suspend) {
-				SuspendThread(hThread);
-			} else {
-				ResumeThread(hThread);
+	// Take a snapshot of all running threads  
+	hThreadSnap = CreateToolhelp32Snapshot( TH32CS_SNAPTHREAD, 0 ); 
+	if(hThreadSnap != INVALID_HANDLE_VALUE && Thread32First( hThreadSnap, &te32 )) {
+		result = true;
+		while(Thread32Next(hThreadSnap, &te32 ))  {
+			if(te32.th32OwnerProcessID == dwOwnerPID) {
+				HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME , true, te32.th32ThreadID);			
+				if (suspend) {
+					SuspendThread(hThread);
+				} else {
+					ResumeThread(hThread);
+				}
+				CloseHandle(hThread);
 			}
-			CloseHandle(hThread);
 		}
 	}
-
-//  Don't forget to clean up the snapshot object.
-  CloseHandle( hThreadSnap );
-  return true;
+	if (hThreadSnap != INVALID_HANDLE_VALUE) {
+		CloseHandle( hThreadSnap );
+	}
+	return result;
 }
 
 DWORD findProcIdByName(const _TCHAR* procName) {
+	DWORD result = 0;
 	PROCESSENTRY32 entry;
 	HANDLE hThreadSnap = INVALID_HANDLE_VALUE; 
 
@@ -55,25 +44,18 @@ DWORD findProcIdByName(const _TCHAR* procName) {
 	HANDLE snapshot = INVALID_HANDLE_VALUE;
     snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
 
-	if (snapshot == INVALID_HANDLE_VALUE) {
-		return -1;
-	}
-	
-	if (!Process32First(snapshot, &entry) == TRUE)
-    {
-	    CloseHandle(snapshot);
-		return -1;
-	}
-
-    while (Process32Next(snapshot, &entry) == TRUE)
-    {
-        if (_tcsicmp(entry.szExeFile, procName) == 0)
-        {  
-			CloseHandle(snapshot);
-			return entry.th32ProcessID;
+	if (snapshot != INVALID_HANDLE_VALUE && Process32First(snapshot, &entry)) {
+		while (Process32Next(snapshot, &entry) == TRUE) {
+			if (_tcsicmp(entry.szExeFile, procName) == 0)
+			{  
+				result = entry.th32ProcessID;
+			}
 		}
-    }
-	return 0;
+	}
+	if (snapshot != INVALID_HANDLE_VALUE) {
+		CloseHandle(snapshot);
+	}
+	return result;
 }
 
 BOOL doSmth() {

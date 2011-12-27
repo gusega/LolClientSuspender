@@ -5,3 +5,5 @@ Just run it and keep running while playing LoL.
 updates: now you can launch LolClientSuspender anytime
 
 GL&HF
+
+Updated fixed bug when multiple handles was created and wasn't closed over time. Thx to natri23
